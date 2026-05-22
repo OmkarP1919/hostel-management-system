@@ -1,5 +1,7 @@
 package com.hostel.backend.dto;
+
 import com.hostel.backend.enums.Role;
+
 import lombok.*;
 
 @Getter
@@ -8,9 +10,11 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 
-public class UserResponseDto {
+public class LoginResponseDto {
 
-    private Long id;
+    private String token;
+
+    private Long userId;
 
     private String fullName;
 

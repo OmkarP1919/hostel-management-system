@@ -1,5 +1,6 @@
 package com.hostel.backend.entity;
 
+import com.hostel.backend.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,5 +26,6 @@ public class User {
 
     private String password;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

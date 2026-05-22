@@ -1,7 +1,8 @@
 package com.hostel.backend.dto;
-import com.hostel.backend.enums.Role;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+
 import lombok.*;
 
 @Getter
@@ -10,10 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 
-public class UserRequestDto {
-
-    @NotBlank(message = "Full name is required")
-    private String fullName;
+public class LoginRequestDto {
 
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email is required")
@@ -21,7 +19,4 @@ public class UserRequestDto {
 
     @NotBlank(message = "Password is required")
     private String password;
-
-    @NotBlank(message = "Role is required")
-    private Role role;
 }
