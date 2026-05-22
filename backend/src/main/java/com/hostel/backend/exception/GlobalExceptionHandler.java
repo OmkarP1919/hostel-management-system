@@ -1,5 +1,5 @@
 package com.hostel.backend.exception;
-
+import com.hostel.backend.exception.RoomAlreadyExistsException;
 import com.hostel.backend.dto.ApiResponse;
 import com.hostel.backend.exception.EmailAlreadyExistsException;
 import org.springframework.http.HttpStatus;
@@ -64,6 +64,30 @@ handleInvalidCredentialsException(
     return new ResponseEntity<>(
             response,
             HttpStatus.UNAUTHORIZED
+    );
+}
+
+@ExceptionHandler(RoomAlreadyExistsException.class)
+public ResponseEntity<ApiResponse<Object>>
+handleRoomAlreadyExistsException(
+        RoomAlreadyExistsException ex
+) {
+
+    ApiResponse<Object> response =
+            new ApiResponse<>(
+
+                    false,
+
+                    ex.getMessage(),
+
+                    null
+            );
+
+    return new ResponseEntity<>(
+
+            response,
+
+            HttpStatus.BAD_REQUEST
     );
 }
 
