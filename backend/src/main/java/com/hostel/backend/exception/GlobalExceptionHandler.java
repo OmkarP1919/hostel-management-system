@@ -8,9 +8,63 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.hostel.backend.exception.InvalidCredentialsException;
+import com.hostel.backend.exception.RoomFullException;
 
+import com.hostel.backend.exception.
+StudentAlreadyAllocatedException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+
+    @ExceptionHandler(RoomFullException.class)
+public ResponseEntity<ApiResponse<Object>>
+handleRoomFullException(
+        RoomFullException ex
+) {
+
+    ApiResponse<Object> response =
+            new ApiResponse<>(
+
+                    false,
+
+                    ex.getMessage(),
+
+                    null
+            );
+
+    return new ResponseEntity<>(
+
+            response,
+
+            HttpStatus.BAD_REQUEST
+    );
+}
+
+@ExceptionHandler(
+        StudentAlreadyAllocatedException.class
+)
+public ResponseEntity<ApiResponse<Object>>
+handleStudentAlreadyAllocatedException(
+        StudentAlreadyAllocatedException ex
+) {
+
+    ApiResponse<Object> response =
+            new ApiResponse<>(
+
+                    false,
+
+                    ex.getMessage(),
+
+                    null
+            );
+
+    return new ResponseEntity<>(
+
+            response,
+
+            HttpStatus.BAD_REQUEST
+    );
+}
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Object>> handleValidationException(

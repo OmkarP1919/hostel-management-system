@@ -10,4 +10,8 @@ public interface RoomRepository
         extends JpaRepository<Room, Long> {
 
     boolean existsByRoomNumber(String roomNumber);
+
+    long countByStatus(
+            com.hostel.backend.enums.RoomStatus status
+    );
 }
