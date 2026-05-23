@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.lang.NonNull;
+
 import org.springframework.security.authentication.
 UsernamePasswordAuthenticationToken;
 
@@ -37,13 +39,41 @@ public class JwtAuthenticationFilter
             userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(
+
+            HttpServletRequest request
+
+    ) {
+
+        String path = request.getServletPath();
+
+        return path.startsWith("/swagger-ui")
+
+                ||
+
+                path.startsWith("/v3/api-docs")
+
+                ||
+
+                path.startsWith("/swagger-resources")
+
+                ||
+
+                path.startsWith("/webjars")
+
+                ||
+
+                path.startsWith("/api/auth");
+    }
+
+    @Override
     protected void doFilterInternal(
 
-            HttpServletRequest request,
+            @NonNull HttpServletRequest request,
 
-            HttpServletResponse response,
+            @NonNull HttpServletResponse response,
 
-            FilterChain filterChain
+            @NonNull FilterChain filterChain
 
     ) throws ServletException, IOException {
 
@@ -54,26 +84,45 @@ public class JwtAuthenticationFilter
 
         String email = null;
 
-        if (authHeader != null
-                && authHeader.startsWith("Bearer ")) {
+        if (
+
+                authHeader != null
+
+                        &&
+
+                        authHeader.startsWith("Bearer ")
+
+        ) {
 
             jwt = authHeader.substring(7);
 
             email = jwtUtil.extractEmail(jwt);
         }
 
-        if (email != null
-                && SecurityContextHolder
-                .getContext()
-                .getAuthentication() == null) {
+        if (
+
+                email != null
+
+                        &&
+
+                        SecurityContextHolder
+
+                                .getContext()
+
+                                .getAuthentication() == null
+
+        ) {
 
             UserDetails userDetails =
+
                     userDetailsService
+
                             .loadUserByUsername(email);
 
             if (jwtUtil.isTokenValid(jwt)) {
 
                 UsernamePasswordAuthenticationToken authToken =
+
                         new UsernamePasswordAuthenticationToken(
 
                                 userDetails,
@@ -91,7 +140,9 @@ public class JwtAuthenticationFilter
                 );
 
                 SecurityContextHolder
+
                         .getContext()
+
                         .setAuthentication(authToken);
             }
         }

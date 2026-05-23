@@ -29,7 +29,11 @@ public class Room {
 
     private Integer occupiedBeds = 0;
 
-    private String buildingName;
+    @ManyToOne
+
+@JoinColumn(name = "hostel_building_id")
+
+private HostelBuilding hostelBuilding;
 
     private Integer floorNumber;
 

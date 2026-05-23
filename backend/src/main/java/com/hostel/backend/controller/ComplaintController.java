@@ -8,7 +8,7 @@ ComplaintService;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,4 +64,39 @@ public class ComplaintController {
                 complaints
         );
     }
+
+    @PutMapping("/{complaintId}/status")
+
+@PreAuthorize("hasAuthority('ADMIN')")
+
+public ApiResponse<ComplaintResponseDto>
+updateComplaintStatus(
+
+        @PathVariable
+        Long complaintId,
+
+        @Valid
+        @RequestBody
+        ComplaintStatusUpdateDto requestDto
+) {
+
+    ComplaintResponseDto responseDto =
+
+            complaintService
+                    .updateComplaintStatus(
+
+                            complaintId,
+
+                            requestDto
+                    );
+
+    return new ApiResponse<>(
+
+            true,
+
+            "Complaint status updated successfully",
+
+            responseDto
+    );
+}
 }

@@ -19,7 +19,7 @@ public class RoomResponseDto {
 
     private Integer occupiedBeds;
 
-    private String buildingName;
+    private String hostelName;
 
     private Integer floorNumber;
 

@@ -85,6 +85,50 @@ public class ComplaintService {
                 .collect(Collectors.toList());
     }
 
+
+    public ComplaintResponseDto
+updateComplaintStatus(
+
+        Long complaintId,
+
+        ComplaintStatusUpdateDto requestDto
+) {
+
+    Complaint complaint =
+
+            complaintRepository.findById(
+                    complaintId
+            ).orElseThrow(() ->
+
+                    new RuntimeException(
+                            "Complaint not found"
+                    )
+            );
+
+    complaint.setStatus(
+            requestDto.getStatus()
+    );
+
+    if (
+            requestDto.getStatus()
+                    == ComplaintStatus.RESOLVED
+    ) {
+
+        complaint.setResolvedAt(
+                LocalDateTime.now()
+        );
+    }
+
+    Complaint updatedComplaint =
+
+            complaintRepository.save(
+                    complaint
+            );
+
+    return mapToResponseDto(
+            updatedComplaint
+    );
+}
     private ComplaintResponseDto
     mapToResponseDto(
             Complaint complaint

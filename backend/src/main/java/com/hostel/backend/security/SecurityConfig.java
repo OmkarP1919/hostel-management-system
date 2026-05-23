@@ -2,7 +2,7 @@ package com.hostel.backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.authentication.
 AuthenticationManager;
 
@@ -29,6 +29,7 @@ UsernamePasswordAuthenticationFilter;
 
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 
+@EnableWebSecurity
 @EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
@@ -77,12 +78,28 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers(
-                                "/api/auth/**"
-                        ).permitAll()
+        .requestMatchers(
 
-                        .anyRequest().authenticated()
-                )
+                "/api/auth/**",
+
+                "/swagger-ui/**",
+
+                "/swagger-ui.html",
+
+                "/v3/api-docs/**",
+
+                "/v3/api-docs",
+
+                "/swagger-resources/**",
+
+                "/webjars/**"
+
+        ).permitAll()
+
+        .anyRequest()
+
+        .authenticated()
+)
 
                 .addFilterBefore(
 

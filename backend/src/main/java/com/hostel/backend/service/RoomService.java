@@ -2,12 +2,12 @@ package com.hostel.backend.service;
 
 import com.hostel.backend.dto.RoomRequestDto;
 import com.hostel.backend.dto.RoomResponseDto;
-
+import com.hostel.backend.entity.HostelBuilding;
 import com.hostel.backend.entity.Room;
 
 import com.hostel.backend.exception.
 RoomAlreadyExistsException;
-
+import com.hostel.backend.repository.HostelBuildingRepository;
 import com.hostel.backend.repository.RoomRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,10 @@ public class RoomService {
 
     @Autowired
     private RoomRepository roomRepository;
+
+        @Autowired
+private HostelBuildingRepository
+        hostelBuildingRepository;
 
     public RoomResponseDto createRoom(
             RoomRequestDto requestDto
@@ -48,9 +52,20 @@ public class RoomService {
 
         room.setOccupiedBeds(0);
 
-        room.setBuildingName(
-                requestDto.getBuildingName()
+        HostelBuilding hostelBuilding =
+
+        hostelBuildingRepository.findById(
+
+                requestDto.getHostelBuildingId()
+
+        ).orElseThrow(() ->
+
+                new RuntimeException(
+                        "Hostel building not found"
+                )
         );
+
+room.setHostelBuilding(hostelBuilding);
 
         room.setFloorNumber(
                 requestDto.getFloorNumber()
@@ -99,7 +114,8 @@ public class RoomService {
 
                 room.getOccupiedBeds(),
 
-                room.getBuildingName(),
+                room.getHostelBuilding()
+        .getHostelName(),
 
                 room.getFloorNumber(),
 

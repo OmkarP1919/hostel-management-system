@@ -20,7 +20,9 @@ public class RoomRequestDto {
     private Integer capacity;
 
     @NotBlank(message = "Building name is required")
-    private String buildingName;
+    @NotNull(message = "Hostel building ID is required")
+
+private Long hostelBuildingId;
 
     @NotNull(message = "Floor number is required")
     private Integer floorNumber;
